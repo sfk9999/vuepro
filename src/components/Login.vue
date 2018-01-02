@@ -18,17 +18,18 @@
 
 <script>
 //  import datas from'../util/mock';
+import md5 from 'js-md5';
   export default{
       data(){
           return{
+//              logining:false,
               ruleForm:{
-                userName:'',
-                passWord:''
+                userName:'admin',
+                passWord:'123456'
               },
               loginRules:{
                   userName:[
                     {required:true,message:'请输入账号',trigger:'blur'}
-//                    {min:6,max:10,message:'长度在6-10个字符',trigger:'blur'}
                   ],
                   passWord:[
                     {required:true,message:'请输入密码',trigger:'blur'}
@@ -40,9 +41,13 @@
       methods:{
           //提交
           onSubmit:function(ev){
+              var that=this;
               //对整个表单进行校验的方法
               this.$refs.ruleForm.validate((valid)=>{
                   if(valid){
+//                      this.logining=true;
+                      var user={username:this.ruleForm.userName, password:md5(this.ruleForm.passWord)};
+                      sessionStorage.setItem('user',JSON.stringify(user));
                       this.$router.push({path:'/table'});
                   }else {
                     console.log('error submit!!');
